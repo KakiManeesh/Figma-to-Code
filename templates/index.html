@@ -49,8 +49,29 @@
             <li>figma_normalized.json</li>
             <li>figma_render.png</li>
             <li>manifest.json</li>
+            {% if result.files and result.files.component_candidates %}
+              <li>component_candidates.json</li>
+            {% endif %}
           </ul>
           <p><strong>Output:</strong> <code>{{ result.output_dir }}</code></p>
+        </div>
+
+        {% if result.file_key %}
+          <form action="/preprocess/{{ result.file_key }}" method="post" style="margin-top: 16px;">
+            <button type="submit">Preprocess Design</button>
+          </form>
+        {% endif %}
+      {% endif %}
+
+      {% if preprocess_result %}
+        <div class="success">
+          <p>{{ preprocess_result.message }}</p>
+          <p><strong>Candidate count:</strong> {{ preprocess_result.summary.candidate_components }}</p>
+          <p><strong>Total nodes:</strong> {{ preprocess_result.summary.total_nodes }}</p>
+          <p><strong>Saved:</strong></p>
+          <ul>
+            <li>component_candidates.json</li>
+          </ul>
         </div>
       {% endif %}
     </div>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Figma Importer</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+      .card { max-width: 720px; }
+      label { display: block; margin-bottom: 8px; font-weight: 700; }
+      input[type="url"] { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 16px; }
+      button { padding: 12px 18px; font-size: 16px; cursor: pointer; }
+      .error { margin-top: 20px; color: #b00020; }
+      .success { margin-top: 20px; color: #0a7a2f; }
+      code { background: #f4f4f4; padding: 2px 6px; }
+      ul { padding-left: 20px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Figma Ingestion</h1>
+      <form method="post">
+        <label for="figma_url">Figma Design URL</label>
+        <input
+          id="figma_url"
+          name="figma_url"
+          type="url"
+          placeholder="https://www.figma.com/design/ABC123/Sales-Dashboard"
+          value="{{ figma_url or '' }}"
+          required
+        />
+        <button type="submit">Import Design</button>
+      </form>
+
+      {% if error %}
+        <div class="error">
+          <strong>{{ error }}</strong>
+        </div>
+      {% endif %}
+
+      {% if result %}
+        <div class="success">
+          <p>{{ result.message }}</p>
+          <p><strong>File:</strong> {{ result.file_name }}</p>
+          <p><strong>File Key:</strong> {{ result.file_key }}</p>
+          <p><strong>Saved:</strong></p>
+          <ul>
+            <li>figma_raw.json</li>
+            <li>figma_normalized.json</li>
+            <li>figma_render.png</li>
+            <li>manifest.json</li>
+          </ul>
+          <p><strong>Output:</strong> <code>{{ result.output_dir }}</code></p>
+        </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
